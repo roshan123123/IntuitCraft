@@ -13,6 +13,7 @@ const FXPairCardsContainer=({cardsList,handleDelete,handleSwap,handleRefresh,})=
               to={cards.to}
               createdAt={cards.createdAt}
               fxRates={cards.fxRates}
+              inverseFxRates={cards.inverseFxRates}
             />
           );
         })}

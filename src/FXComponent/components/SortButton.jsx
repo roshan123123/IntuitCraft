@@ -11,9 +11,10 @@ const SortButton = ({ title, handleSort, activeSortType, sortType }) => {
       {title}
       {activeSortType.sortBy === sortType ? (
         activeSortType.sortOrder === ORDER.ASC ? (
-          <FaSortDown />
+         
+           <FaSortUp />
         ) : (
-          <FaSortUp />
+          <FaSortDown />
         )
       ) : (
         <FaSort />

@@ -17,7 +17,7 @@ const CurrencyDropdown = ({
           setCurrency(e.target.value);
         }}
       >
-      
+       {/* <option value={undefined}> SELECT COUNTRY</option> */}
         {currencyOPtions.map((currency) => {
           return (
             <option key={currency} value={currency}>

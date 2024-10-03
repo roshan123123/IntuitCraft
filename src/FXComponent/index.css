@@ -1,0 +1,10 @@
+select {
+  position: relative;
+  z-index: 1; /* Makes sure it renders above other elements */
+  direction: ltr; /* Forces left-to-right layout */
+}
+
+/* Optionally, add space below the select to give more room for dropdown */
+.select-container {
+  margin-bottom: 200px; /* Adjust as needed */
+}

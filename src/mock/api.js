@@ -145,9 +145,18 @@ export const getFXRate = (fromCurrency, toCurrency) => {
 };
 
 export const getFXRateApi = async (fromCurrency, toCurrency, amount = 1) => {
-  const res = await fetch(
+  const fxAPi = await fetch(
     `https://api.frankfurter.app/latest?amount=${amount}&from=${fromCurrency}&to=${toCurrency}`
   );
-  const data = await res.json();
-  return data.rates[toCurrency];
+  const fxRate = await fxAPi.json();
+
+  const fxInverseApi = await fetch(
+    `https://api.frankfurter.app/latest?amount=${amount}&from=${toCurrency}&to=${fromCurrency}`
+  );
+  const fxInverseRate = await fxInverseApi.json();
+
+  return {
+    fxRate: fxRate.rates[toCurrency],
+    inverseFxRate: fxInverseRate.rates[fromCurrency],
+  };
 };

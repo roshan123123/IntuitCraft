@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from 'react';
-import { getFXRate, getCountries } from '../../mock/api';
+import { getFXRate, getCountries,getFXRateApi } from '../../mock/api';
 import CurrencyDropdown from './CurrencyDropdown';
 import { sortAndReturnNewList } from '../helper';
 const AddNewCards = ({ setCardsList, activeSortType }) => {
@@ -10,7 +10,8 @@ const AddNewCards = ({ setCardsList, activeSortType }) => {
 
   const handleAddCardCLick = async () => {
     try {
-      const fxRate = await getFXRate(fromCurrency, toCurrency);
+      const rates = await getFXRateApi(fromCurrency, toCurrency);
+      console.log("rate",rates)
       setCardsList((prevCardList) => {
         const newCard = {
           from: fromCurrency,
@@ -18,7 +19,8 @@ const AddNewCards = ({ setCardsList, activeSortType }) => {
           key: Date.now(),
           createdAt: Date.now(),
           updatedAt: Date.now(),
-          fxRates: fxRate,
+          fxRates: rates.fxRate,
+          inverseFxRates: rates.inverseFxRate
         };
         //TODO: sort the array on the basis of type of sort Config can be otimised
         const updatedList = [newCard, ...prevCardList];
@@ -55,14 +57,14 @@ const AddNewCards = ({ setCardsList, activeSortType }) => {
     <div className="flex p-4 bg-gray-300 justify-between sticky top-0">
       <div className="flex gap-4 justify-center items-center">
         <CurrencyDropdown
-          currencyOPtions={currencies}
+          currencyOPtions={currencies.filter((currency)=>currency!=toCurrency)}
           currency={fromCurrency}
           setCurrency={setFromCurrency}
           title={'From'}
         />
 
         <CurrencyDropdown
-          currencyOPtions={currencies}
+          currencyOPtions={currencies.filter((currency)=>currency!=fromCurrency)}
           currency={toCurrency}
           setCurrency={setToCurrency}
           title={'To'}

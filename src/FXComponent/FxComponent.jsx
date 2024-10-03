@@ -7,6 +7,8 @@ import AddNewCards from './components/AddNewCards';
 import { sortAndReturnNewList } from './helper';
 import { getFXRate, getFXRateApi } from '../mock/api';
 
+import "./index.css"
+
 function FxComponent() {
    const [cardsList, setCardsList] = useState(() => {
     const savedCardsList = localStorage.getItem('cardsList');
@@ -30,8 +32,8 @@ function FxComponent() {
             updatedAt: Date.now(),
             from: card.to,
             to: card.from,
-            // TODO: call api if needed
-            fxRates: 1 / card.fxRates,
+            fxRates: card.inverseFxRates,
+            inverseFxRates: card.fxRates
           };
         }
         return card; // return the unchanged card if key doesn't match
@@ -82,14 +84,15 @@ function FxComponent() {
 
   const handleRefresh = useCallback( async (key, from, to) => {
     try {
-      const fxRate = await getFXRate(from, to);
+      const rates  = await getFXRateApi(from, to);
       setCardsList((prevCardList) => {
         const updatedCardList = prevCardList.map((card) => {
           if (card.key === key) {
             return {
               ...card,
               updatedAt: Date.now(),
-              fxRates: fxRate,
+              fxRates: rates.fxRate,
+              inverseFxRates: rates.inverseFxRate
             };
           }
           return card; // return the unchanged card if key doesn't match
