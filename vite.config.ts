@@ -26,6 +26,8 @@ export default defineConfig({
         '**/*.spec.js', // Exclude spec files
         '**/*.test.ts', // If you're using TypeScript
         '**/*.spec.ts',
+        '**/*.test.tsx', // If you're using TypeScript
+        '**/*.spec.tsx',
         '**/*.config.js'
       ],
     },

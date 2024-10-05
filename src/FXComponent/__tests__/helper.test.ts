@@ -1,16 +1,10 @@
-/* eslint-disable no-undef */
+// @ts-nocheck
+import { ORDER } from '../constants/filterConstants';
 import { sortAndReturnNewList } from '../helper';
-
-const ORDER = {
-  ASC: 'asc',
-  DESC: 'desc',
-};
-
 describe('sortAndReturnNewList', () => {
   let cardList;
 
   beforeEach(() => {
-    // Setting up an initial card list
     cardList = [
       { name: 'Card A', value: 2, age: 30 },
       { name: 'Card B', value: 1, age: 25 },
@@ -50,7 +44,6 @@ describe('sortAndReturnNewList', () => {
 
   it('should return a new list (deep copy) instead of modifying the original one', () => {
     const sortedList = sortAndReturnNewList('value', ORDER.ASC, cardList);
-    // Sorted list should be a new array
-    expect(sortedList).not.toBe(cardList); // Ensure it's a new array, not the same reference
+    expect(sortedList).not.toBe(cardList);
   });
 });

@@ -1,14 +1,25 @@
-/* eslint-disable react/prop-types */
+import { useEffect, useState } from 'react';
+import { CgArrowsExchangeAltV } from 'react-icons/cg';
+import { IoIosRefresh } from 'react-icons/io';
+import { RxCross2 } from 'react-icons/rx';
+import { roundToDecimalPlace } from '../../utility/numericalManipulation';
 
-const INPUT_CONSTANT={
-  FROM:"from",
-  TO:"to"
-}
+const INPUT_CONSTANT = {
+  FROM: 'from',
+  TO: 'to',
+};
 
-import {  useState ,useEffect} from "react";
-import { CgArrowsExchangeAltV } from "react-icons/cg";
-import { RxCross2 } from "react-icons/rx";
-import { IoIosRefresh } from "react-icons/io";
+type FxCardsPropType = {
+  handleRefresh: (key: number, from: string, to: string) => void;
+  handleDelete: (key: number) => void;
+  handleSwap: (key: number) => void;
+  from: string;
+  to: string;
+  createdAt: number;
+  fxRates: number;
+  inverseFxRates: number;
+};
+
 const FXCards = ({
   handleRefresh,
   handleDelete,
@@ -17,42 +28,38 @@ const FXCards = ({
   to,
   createdAt,
   fxRates,
-  inverseFxRates          
-  
-}) => {
-  // const [exRate] = useState(0);
+  inverseFxRates,
+}: FxCardsPropType) => {
   const [fromInput, setFromInput] = useState(1);
-  const [toInput, setToInput] = useState(1*fxRates);
-  const [userTouched,setUserTouched]=useState(INPUT_CONSTANT.FROM)
-    const handleKeyDown = (e) => {
+  const [toInput, setToInput] = useState(1 * fxRates);
+  const [userTouched, setUserTouched] = useState(INPUT_CONSTANT.FROM);
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     // Prevent keys like 'e', 'E', '+', '-', etc.
     if (['e', 'E', '+', '-'].includes(e.key)) {
       e.preventDefault();
     }
-    
   };
-  const handleFromInputChange =(e)=>{
-    setUserTouched(INPUT_CONSTANT.FROM)
-    const val=e.target.value;
+  const handleFromInputChange = (e) => {
+    setUserTouched(INPUT_CONSTANT.FROM);
+    const val = +e.target.value;
     setFromInput(val);
-    setToInput(val*fxRates);
-
-  }
+    setToInput(val * fxRates);
+  };
 
   //TODO:if get the inverseFXrate change it accordingly
-    const handleToInputChange =(e)=>{
-       setUserTouched(INPUT_CONSTANT.TO)
-     const val=e.target.value;
+  const handleToInputChange = (e) => {
+    setUserTouched(INPUT_CONSTANT.TO);
+    const val = +e.target.value;
     setToInput(val);
-    setFromInput(val*inverseFxRates);
-  }
-  useEffect(()=>{
-    if(userTouched==INPUT_CONSTANT.FROM){
-       setToInput(fromInput*fxRates);
-    } else{
-      setFromInput(toInput*inverseFxRates);
+    setFromInput(val * inverseFxRates);
+  };
+  useEffect(() => {
+    if (userTouched == INPUT_CONSTANT.FROM) {
+      setToInput(fromInput * fxRates);
+    } else {
+      setFromInput(toInput * inverseFxRates);
     }
-  },[fxRates])
+  }, [fxRates]);
 
   return (
     <>
@@ -66,7 +73,7 @@ const FXCards = ({
             >
               <CgArrowsExchangeAltV />
             </button>
-            <span>{fxRates}</span>
+            <span>{roundToDecimalPlace(fxRates, 5)}</span>
           </div>
           <span className=" text-green-700 font-bold">{to}</span>
         </div>
@@ -74,10 +81,10 @@ const FXCards = ({
         <div className="flex flex-col gap-2">
           <div className="flex justify-end gap-2">
             <button
-              onClick={() => handleRefresh(createdAt,from,to)}
+              onClick={() => handleRefresh(createdAt, from, to)}
               className=" bg-green-200 rounded-full p-2 hover:bg-green-400"
             >
-              <IoIosRefresh/>
+              <IoIosRefresh />
             </button>
             <button
               onClick={() => handleDelete(createdAt)}

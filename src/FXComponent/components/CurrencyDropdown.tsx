@@ -1,10 +1,16 @@
-/* eslint-disable react/prop-types */
+type CurrencyDropdownPropType = {
+  currencyOPtions: string[];
+  currency: string | undefined;
+  setCurrency: React.Dispatch<React.SetStateAction<string | undefined>>;
+  title: string;
+};
+
 const CurrencyDropdown = ({
   currencyOPtions,
   currency,
   setCurrency,
   title,
-}) => {
+}: CurrencyDropdownPropType) => {
   return (
     <div className="p-2 flex gap-2 border bg-white rounded-md">
       <label htmlFor={title}>{title}</label>
@@ -17,7 +23,7 @@ const CurrencyDropdown = ({
           setCurrency(e.target.value);
         }}
       >
-       {/* <option value={undefined}> SELECT COUNTRY</option> */}
+        {/* <option value={undefined}> SELECT COUNTRY</option> */}
         {currencyOPtions.map((currency) => {
           return (
             <option key={currency} value={currency}>
