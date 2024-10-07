@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getCountries, getFXRateApi } from '../../mock/api';
-import { sortAndReturnNewList } from '../helper';
+import { placeAtCorrectPosition, sortAndReturnNewList } from '../helper';
 import CurrencyDropdown from './CurrencyDropdown';
 import useThrottle from '../../hooks/useThrottle';
 
@@ -24,7 +24,6 @@ const AddNewCards = ({
   const handleAddCardCLick = useThrottle(async () => {
     try {
       const rates = await getFXRateApi(fromCurrency as string, toCurrency as string);
-      console.log('rate', rates);
       setCardsList((prevCardList) => {
         const newCard = {
           from: fromCurrency,
@@ -35,12 +34,12 @@ const AddNewCards = ({
           fxRates: rates.fxRate,
           inverseFxRates: 1 / rates.fxRate,
         };
-        //TODO: sort the array on the basis of type of sort Config can be otimised
-        const updatedList = [newCard, ...prevCardList] as FxCardType[];
-        return sortAndReturnNewList(
+        
+        return placeAtCorrectPosition(
+          prevCardList,
           activeSortType.sortBy,
           activeSortType.sortOrder,
-          updatedList,
+          newCard as FxCardType,
         );
       });
       setErrorState([]); //removing the previous error state
@@ -64,9 +63,6 @@ const AddNewCards = ({
     const fetchCurrencies = async () => {
       try {
         const data = await getCountries();
-
-        console.log('daa', data);
-
         setCurrencies(Object.keys(data));
       } catch (error) {
         setErrorState(['Error while fetching the Country data.']);

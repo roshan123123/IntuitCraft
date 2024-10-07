@@ -1,13 +1,13 @@
 import { useCallback, useEffect, useState } from 'react';
+import useThrottle from '../hooks/useThrottle';
 import { getFXRateApi } from '../mock/api';
 import AddNewCards from './components/AddNewCards';
 import FXPairCardsContainer from './components/FXPairCardsContainer';
 import SortButton from './components/SortButton';
 import { ORDER, SORT_TYPE } from './constants/filterConstants';
-import { sortAndReturnNewList } from './helper';
-import './index.css';
 import { LocalstorageKey } from './constants/localStorage';
-import useThrottle from '../hooks/useThrottle';
+import { placeAtCorrectPosition, sortAndReturnNewList } from './helper';
+import './index.css';
 
 function FxComponent() {
   const [cardsList, setCardsList] = useState<FxCardType[] | []>(() => {
@@ -27,24 +27,20 @@ function FxComponent() {
   const handleSwap = useCallback(
     (key: number) => {
       setCardsList((prevCardList) => {
-        const updatedCardList = prevCardList.map((card) => {
-          if (card.key === key) {
-            return {
-              ...card,
-              updatedAt: Date.now(),
-              from: card.to,
-              to: card.from,
-              fxRates: card.inverseFxRates,
-              inverseFxRates: card.fxRates,
-            };
-          }
-          return card; // return the unchanged card if key doesn't match
-        });
+        const modifiedElement = prevCardList.find((ele) => ele.key == key) as FxCardType;
 
-        return sortAndReturnNewList(
+        return placeAtCorrectPosition(
+          prevCardList.filter((ele) => ele.key != key),
           activeSortType.sortBy,
           activeSortType.sortOrder,
-          updatedCardList,
+          {
+            ...modifiedElement,
+            updatedAt: Date.now(),
+            from: modifiedElement.to,
+            to: modifiedElement.from,
+            fxRates: modifiedElement.inverseFxRates,
+            inverseFxRates: modifiedElement.fxRates,
+          },
         );
       });
     },
@@ -97,22 +93,18 @@ function FxComponent() {
         try {
           const rates = await getFXRateApi(from, to);
           setCardsList((prevCardList) => {
-            const updatedCardList = prevCardList.map((card) => {
-              if (card.key === key) {
-                return {
-                  ...card,
-                  updatedAt: Date.now(),
-                  fxRates: rates.fxRate,
-                  inverseFxRates: 1 / rates.fxRate,
-                };
-              }
-              return card;
-            });
+            const modifiedElement = {
+              ...prevCardList.find((ele) => ele.key == key),
+              updatedAt: Date.now(),
+              fxRates: rates.fxRate,
+              inverseFxRates: 1 / rates.fxRate,
+            };
 
-            return sortAndReturnNewList(
+            return placeAtCorrectPosition(
+              prevCardList.filter((ele) => ele.key != key),
               activeSortType.sortBy,
               activeSortType.sortOrder,
-              updatedCardList,
+              modifiedElement as FxCardType,
             );
           });
           setErrorState([]);
@@ -128,6 +120,7 @@ function FxComponent() {
 
   useEffect(() => {
     //this if is for the first cardList
+    console.log('cardList', cardsList);
     localStorage.setItem(LocalstorageKey.CARD_LIST, JSON.stringify(cardsList));
   }, [cardsList]);
 
