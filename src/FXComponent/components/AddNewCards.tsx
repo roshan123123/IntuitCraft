@@ -53,6 +53,13 @@ const AddNewCards = ({
     }
   }, 1000);
 
+  const handleDelete = () => {
+    const confirmation = confirm('Do you want to delete all the cards');
+    if (confirmation) {
+      setCardsList([]);
+    }
+  };
+
   useEffect(() => {
     const fetchCurrencies = async () => {
       try {
@@ -102,12 +109,7 @@ const AddNewCards = ({
         )}
         <div></div>
       </div>
-      <button
-        className="text-white bg-red-600 p-2 rounded-md"
-        onClick={() => {
-          setCardsList([]);
-        }}
-      >
+      <button className="text-white bg-red-600 p-2 rounded-md" onClick={handleDelete}>
         Delete All Cards
       </button>
     </div>
