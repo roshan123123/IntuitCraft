@@ -1,6 +1,6 @@
 import { useRef, useCallback } from 'react';
 
-const useThrottle = (fn: Function, delay = 500) => {
+const useThrottle = (fn: Function, delay = 500, cardKey?: number) => {
   let timer = useRef<any>(null);
 
   const returnFunction = useCallback(
@@ -12,7 +12,7 @@ const useThrottle = (fn: Function, delay = 500) => {
         }, delay);
       }
     },
-    [fn, delay],
+    [fn, delay, cardKey],
   );
   return returnFunction;
 };

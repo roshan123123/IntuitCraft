@@ -14,7 +14,7 @@ const FXPairCardsContainer = ({
   handleRefresh,
 }: FXPairCardsContainerPropType) => {
   return (
-    <div className="px-4 flex flex-wrap gap-6 justify-center">
+    <div className="px-4 grid  md:grid-cols-2  xl:grid-cols-4  md:gap-6 gap-6 ">
       {cardsList.map((cards) => {
         return (
           <FXCards

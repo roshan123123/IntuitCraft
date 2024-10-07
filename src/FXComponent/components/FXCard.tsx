@@ -3,6 +3,7 @@ import { CgArrowsExchangeAltV } from 'react-icons/cg';
 import { IoIosRefresh } from 'react-icons/io';
 import { RxCross2 } from 'react-icons/rx';
 import { roundToDecimalPlace } from '../../utility/numericalManipulation';
+// import useThrottle from '../../hooks/useThrottle';
 
 const INPUT_CONSTANT = {
   FROM: 'from',
@@ -41,15 +42,18 @@ const FXCards = ({
   };
   const handleFromInputChange = (e) => {
     setUserTouched(INPUT_CONSTANT.FROM);
-    const val = +e.target.value;
+    const val = e.target.value;
     setFromInput(val);
     setToInput(val * fxRates);
   };
 
+  // //for making specific throttoling
+  // const throtelledRefresh = useThrottle(handleRefresh, 20000, createdAt);
+
   //TODO:if get the inverseFXrate change it accordingly
   const handleToInputChange = (e) => {
     setUserTouched(INPUT_CONSTANT.TO);
-    const val = +e.target.value;
+    const val = e.target.value;
     setToInput(val);
     setFromInput(val * inverseFxRates);
   };
@@ -63,7 +67,7 @@ const FXCards = ({
 
   return (
     <>
-      <div className="flex border-gray-300 border py-4  px-5 rounded-xl gap-4 w-[340px]  justify-between">
+      <div className="flex border-gray-300 border py-4  px-5 rounded-xl gap-4 w-[340px]   justify-between">
         <div className="flex flex-col justify-between h-[140px]">
           <span className="text-green-700 font-bold">{from}</span>
           <div className="flex justify-center items-center gap-2">

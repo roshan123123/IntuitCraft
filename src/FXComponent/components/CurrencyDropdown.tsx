@@ -18,12 +18,14 @@ const CurrencyDropdown = ({
         className=" border-none"
         name={title}
         id={title}
-        value={currency}
+        value={currency ||""}
         onChange={(e) => {
-          setCurrency(e.target.value);
+          setCurrency(e.target.value || undefined);
         }}
       >
-        {/* <option value={undefined}> SELECT COUNTRY</option> */}
+        <option key={'placeholder'} value={""}>
+          SELECT COUNTRY
+        </option>
         {currencyOPtions.map((currency) => {
           return (
             <option key={currency} value={currency}>
