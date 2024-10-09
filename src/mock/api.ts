@@ -135,28 +135,35 @@ const conversionRates = {
     GBP: 1,
   },
 };
-
-export const getCountries = () => {
-  return Promise.resolve(countries);
+export const getCountries = async () => {
+  // return (Promise.reject("rejected"))
+  const res = await fetch('https://api.frankfurter.app/currencies');
+  const data = await res.json();
+  return data;
 };
 
-export const getFXRate = (fromCurrency, toCurrency) => {
+export const getFXRate = (fromCurrency: string, toCurrency: string) => {
   return Promise.resolve(conversionRates[fromCurrency][toCurrency]);
 };
 
-export const getFXRateApi = async (fromCurrency, toCurrency, amount = 1) => {
+export const getFXRateApi = async (
+  fromCurrency: string,
+  toCurrency: string,
+  amount = 1,
+) => {
+  // return Promise.reject("skdf")
   const fxAPi = await fetch(
-    `https://api.frankfurter.app/latest?amount=${amount}&from=${fromCurrency}&to=${toCurrency}`
+    `https://api.frankfurter.app/latest?amount=${amount}&from=${fromCurrency}&to=${toCurrency}`,
   );
   const fxRate = await fxAPi.json();
 
-  const fxInverseApi = await fetch(
-    `https://api.frankfurter.app/latest?amount=${amount}&from=${toCurrency}&to=${fromCurrency}`
-  );
-  const fxInverseRate = await fxInverseApi.json();
+  // const fxInverseApi = await fetch(
+  //   `https://api.frankfurter.app/latest?amount=${amount}&from=${toCurrency}&to=${fromCurrency}`,
+  // );
+  // const fxInverseRate = await fxInverseApi.json();
 
   return {
     fxRate: fxRate.rates[toCurrency],
-    inverseFxRate: fxInverseRate.rates[fromCurrency],
+    inverseFxRate: undefined, // wil change if needed
   };
 };

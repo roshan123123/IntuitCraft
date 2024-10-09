@@ -8,3 +8,17 @@ select {
 .select-container {
   margin-bottom: 200px; /* Adjust as needed */
 }
+
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.rotate-button {
+  animation: rotate 2s linear infinite; /* Adjust duration as needed */
+}

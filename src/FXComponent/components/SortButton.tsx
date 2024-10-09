@@ -1,8 +1,19 @@
-/* eslint-disable react/prop-types */
 import { FaSort, FaSortDown, FaSortUp } from 'react-icons/fa6';
-import { ORDER } from '../constants/filterConstants';
+import { ORDER, SORT_TYPE } from '../constants/filterConstants';
 
-const SortButton = ({ title, handleSort, activeSortType, sortType }) => {
+type SortButtonPropType = {
+  title: string;
+  handleSort: (sortBy: keyof typeof SORT_TYPE) => void;
+  activeSortType: ActiveSortType;
+  sortType: keyof typeof SORT_TYPE;
+};
+
+const SortButton = ({
+  title,
+  handleSort,
+  activeSortType,
+  sortType,
+}: SortButtonPropType) => {
   return (
     <button
       onClick={() => handleSort(sortType)}
@@ -11,8 +22,7 @@ const SortButton = ({ title, handleSort, activeSortType, sortType }) => {
       {title}
       {activeSortType.sortBy === sortType ? (
         activeSortType.sortOrder === ORDER.ASC ? (
-         
-           <FaSortUp />
+          <FaSortUp />
         ) : (
           <FaSortDown />
         )
