@@ -16,6 +16,7 @@ type FxCardsPropType = {
     from: string,
     to: string,
     errorCalback: (errorMsg: string) => void,
+    loaderCallback: (loading: boolean) => void,
   ) => void;
   handleDelete: (key: number) => void;
   handleSwap: (key: number) => void;
@@ -40,6 +41,7 @@ const FXCards = ({
   const [toInput, setToInput] = useState(1 * fxRates);
   const [userTouched, setUserTouched] = useState(INPUT_CONSTANT.FROM);
   const [error, setError] = useState('');
+  const [refreshLoading, setRefreshLoading] = useState(false);
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     // Prevent keys like 'e', 'E', '+', '-', etc.
     if (['e', 'E', '+', '-'].includes(e.key)) {
@@ -80,7 +82,7 @@ const FXCards = ({
             <button
               data-testid="swap"
               onClick={() => handleSwap(createdAt)}
-              className=" bg-gray-200 rounded-3xl text-4xl hover:bg-gray-400"
+              className=" bg-gray-200 rounded-3xl text-4xl hover:bg-gray-400 "
             >
               <CgArrowsExchangeAltV />
             </button>
@@ -92,9 +94,18 @@ const FXCards = ({
         <div className="flex flex-col gap-2">
           <div className="flex justify-end gap-2">
             <button
+              disabled={refreshLoading}
               data-testid="refresh"
-              onClick={() => handleRefresh(createdAt, from, to, (e) => setError(e))}
-              className=" bg-green-200 rounded-full p-2 hover:bg-green-400"
+              onClick={() =>
+                handleRefresh(
+                  createdAt,
+                  from,
+                  to,
+                  (msg) => setError(msg),
+                  (loading) => setRefreshLoading(loading),
+                )
+              }
+              className={`bg-green-200 flex items-center justify-center rounded-full w-8 h-8 hover:bg-green-400 ${refreshLoading && 'rotate-button bg-gray-400 hover:!bg-gray-400 cursor-wait'}`}
             >
               <IoIosRefresh />
             </button>

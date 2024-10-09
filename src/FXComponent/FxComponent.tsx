@@ -21,7 +21,6 @@ function FxComponent() {
       ? JSON.parse(savedSortType)
       : { sortBy: SORT_TYPE.createdAt, sortOrder: ORDER.ASC };
   });
-  const [errorState, setErrorState] = useState<string[] | []>([]);
 
   //not calling the api to get updated exchange rate
   const handleSwap = useCallback(
@@ -94,8 +93,10 @@ function FxComponent() {
         from: string,
         to: string,
         setErrorStateCallback: (errorMsg: string) => void,
+        loaderCallback: (loading: boolean) => void,
       ) => {
         try {
+          loaderCallback(true);
           setErrorStateCallback('');
           const rates = await getFXRateApi(from, to);
           setCardsList((prevCardList) => {
@@ -113,10 +114,11 @@ function FxComponent() {
               modifiedElement as FxCardType,
             );
           });
-          setErrorState([]);
         } catch (error) {
           setErrorStateCallback('Error while Refetching the fx rate');
           console.log('errror while fetching the exchange rate', error);
+        } finally {
+          loaderCallback(false);
         }
       },
       [activeSortType, setCardsList],
@@ -140,8 +142,6 @@ function FxComponent() {
   return (
     <div className="min-h-screen bg-white">
       <AddNewCards
-        errorState={errorState}
-        setErrorState={setErrorState}
         setCardsList={setCardsList}
         activeSortType={activeSortType}
       />

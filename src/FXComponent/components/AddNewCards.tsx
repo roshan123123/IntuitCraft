@@ -7,22 +7,16 @@ import useThrottle from '../../hooks/useThrottle';
 type AddNewCardsPropType = {
   setCardsList: React.Dispatch<React.SetStateAction<FxCardType[]>>;
   activeSortType: ActiveSortType;
-  errorState: string[];
-  setErrorState: React.Dispatch<React.SetStateAction<string[]>>;
 };
-const AddNewCards = ({
-  setCardsList,
-  activeSortType,
-  errorState,
-  setErrorState,
-}: AddNewCardsPropType) => {
+const AddNewCards = ({ setCardsList, activeSortType }: AddNewCardsPropType) => {
   const [currencies, setCurrencies] = useState<[] | string[]>([]);
   const [fromCurrency, setFromCurrency] = useState<string | undefined>(undefined);
-
+  const [errorState, setErrorState] = useState<string[]>([]);
   const [toCurrency, setToCurrency] = useState<string | undefined>(undefined);
-
+  const [addLoader, setAddLoader] = useState(false);
   const handleAddCardCLick = useThrottle(async () => {
     try {
+      setAddLoader(true);
       const rates = await getFXRateApi(fromCurrency as string, toCurrency as string);
       setCardsList((prevCardList) => {
         const newCard = {
@@ -34,7 +28,7 @@ const AddNewCards = ({
           fxRates: rates.fxRate,
           inverseFxRates: 1 / rates.fxRate,
         };
-        
+
         return placeAtCorrectPosition(
           prevCardList,
           activeSortType.sortBy,
@@ -43,12 +37,13 @@ const AddNewCards = ({
         );
       });
       setErrorState([]); //removing the previous error state
+      setFromCurrency(undefined);
+      setToCurrency(undefined);
     } catch (error) {
       setErrorState(['Error while fetching the fx rate.']);
       console.error('some error occured while fetching conversion Data', error);
     } finally {
-      setFromCurrency(undefined);
-      setToCurrency(undefined);
+      setAddLoader(false);
     }
   }, 1000);
 
@@ -90,11 +85,11 @@ const AddNewCards = ({
         />
 
         <button
-          className="text-white bg-blue-600 p-2 rounded-md disabled:cursor-not-allowed"
+          className={`text-white w-[84px] bg-blue-600 p-2 rounded-md disabled:cursor-not-allowed ${addLoader && 'cursor-wait'}`}
           onClick={handleAddCardCLick}
-          disabled={!fromCurrency || !toCurrency}
+          disabled={!fromCurrency || !toCurrency || addLoader}
         >
-          Add Card
+          {addLoader ? 'Adding...' : 'Add Card'}
         </button>
         {errorState?.length > 0 && (
           <div className=" text-xs text-red-500 p-2 bg-red-300 border-2 border-red-500 rounded-md">
