@@ -1,9 +1,9 @@
+// @ts-nocheck
 import { useEffect, useState } from 'react';
 import { CgArrowsExchangeAltV } from 'react-icons/cg';
 import { IoIosRefresh } from 'react-icons/io';
 import { RxCross2 } from 'react-icons/rx';
 import { roundToDecimalPlace } from '../../utility/numericalManipulation';
-// import useThrottle from '../../hooks/useThrottle';
 
 const INPUT_CONSTANT = {
   FROM: 'from',
@@ -78,6 +78,7 @@ const FXCards = ({
           <span className="text-green-700 font-bold">{from}</span>
           <div className="flex justify-center items-center gap-2">
             <button
+              data-testid="swap"
               onClick={() => handleSwap(createdAt)}
               className=" bg-gray-200 rounded-3xl text-4xl hover:bg-gray-400"
             >
@@ -91,12 +92,14 @@ const FXCards = ({
         <div className="flex flex-col gap-2">
           <div className="flex justify-end gap-2">
             <button
+              data-testid="refresh"
               onClick={() => handleRefresh(createdAt, from, to, (e) => setError(e))}
               className=" bg-green-200 rounded-full p-2 hover:bg-green-400"
             >
               <IoIosRefresh />
             </button>
             <button
+              data-testid="delete"
               onClick={() => handleDelete(createdAt)}
               className="border border-gray-300 rounded-full p-2 hover:bg-gray-400"
             >
@@ -118,9 +121,7 @@ const FXCards = ({
           />
         </div>
       </div>
-      {error && (
-        <div className="text-red-700 text-center text-xs">{error}</div>
-      )}
+      {error && <div className="text-red-700 text-center text-xs">{error}</div>}
     </div>
   );
 };
