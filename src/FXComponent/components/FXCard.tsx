@@ -72,8 +72,8 @@ const FXCards = ({
   }, [fxRates]);
 
   return (
-    <div className="flex flex-col border-gray-300 border rounded-xl py-4  px-5">
-      <div className="flex   gap-4 w-[340px]   justify-between">
+    <div className="flex flex-col border-gray-300 border rounded-xl py-4  px-5 w-[340px]">
+      <div className="flex   gap-4    justify-between">
         <div className="flex flex-col justify-between h-[140px]">
           <span className="text-green-700 font-bold">{from}</span>
           <div className="flex justify-center items-center gap-2">

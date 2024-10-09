@@ -176,3 +176,11 @@ function FxComponent() {
 }
 
 export default FxComponent;
+
+// const sortConfig=[
+//   title:"xl,fdg",
+//   comparator:()=>{
+
+//   }
+//   type:{}
+// ]
