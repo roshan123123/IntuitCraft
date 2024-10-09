@@ -11,7 +11,12 @@ const INPUT_CONSTANT = {
 };
 
 type FxCardsPropType = {
-  handleRefresh: (key: number, from: string, to: string) => void;
+  handleRefresh: (
+    key: number,
+    from: string,
+    to: string,
+    errorCalback: (errorMsg: string) => void,
+  ) => void;
   handleDelete: (key: number) => void;
   handleSwap: (key: number) => void;
   from: string;
@@ -34,6 +39,7 @@ const FXCards = ({
   const [fromInput, setFromInput] = useState(1);
   const [toInput, setToInput] = useState(1 * fxRates);
   const [userTouched, setUserTouched] = useState(INPUT_CONSTANT.FROM);
+  const [error, setError] = useState('');
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     // Prevent keys like 'e', 'E', '+', '-', etc.
     if (['e', 'E', '+', '-'].includes(e.key)) {
@@ -66,8 +72,8 @@ const FXCards = ({
   }, [fxRates]);
 
   return (
-    <>
-      <div className="flex border-gray-300 border py-4  px-5 rounded-xl gap-4 w-[340px]   justify-between">
+    <div className="flex flex-col border-gray-300 border rounded-xl py-4  px-5">
+      <div className="flex   gap-4 w-[340px]   justify-between">
         <div className="flex flex-col justify-between h-[140px]">
           <span className="text-green-700 font-bold">{from}</span>
           <div className="flex justify-center items-center gap-2">
@@ -85,7 +91,7 @@ const FXCards = ({
         <div className="flex flex-col gap-2">
           <div className="flex justify-end gap-2">
             <button
-              onClick={() => handleRefresh(createdAt, from, to)}
+              onClick={() => handleRefresh(createdAt, from, to, (e) => setError(e))}
               className=" bg-green-200 rounded-full p-2 hover:bg-green-400"
             >
               <IoIosRefresh />
@@ -112,7 +118,10 @@ const FXCards = ({
           />
         </div>
       </div>
-    </>
+      {error && (
+        <div className="text-red-700 text-center text-xs">{error}</div>
+      )}
+    </div>
   );
 };
 

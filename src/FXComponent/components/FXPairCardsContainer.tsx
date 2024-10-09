@@ -2,7 +2,12 @@ import FXCards from './FXCard';
 
 type FXPairCardsContainerPropType = {
   cardsList: FxCardType[];
-  handleRefresh: (key: number, from: string, to: string) => void;
+  handleRefresh: (
+    key: number,
+    from: string,
+    to: string,
+    errorCalback: (errorMsg: string) => void,
+  ) => void;
   handleDelete: (key: number) => void;
   handleSwap: (key: number) => void;
 };

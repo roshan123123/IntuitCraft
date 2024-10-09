@@ -89,8 +89,14 @@ function FxComponent() {
 
   const handleRefresh = useThrottle(
     useCallback(
-      async (key: number, from: string, to: string) => {
+      async (
+        key: number,
+        from: string,
+        to: string,
+        setErrorStateCallback: (errorMsg: string) => void,
+      ) => {
         try {
+          setErrorStateCallback('');
           const rates = await getFXRateApi(from, to);
           setCardsList((prevCardList) => {
             const modifiedElement = {
@@ -109,7 +115,7 @@ function FxComponent() {
           });
           setErrorState([]);
         } catch (error) {
-          setErrorState(['Error while Refetching the fx rate.']);
+          setErrorStateCallback('Error while Refetching the fx rate');
           console.log('errror while fetching the exchange rate', error);
         }
       },
