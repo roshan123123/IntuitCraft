@@ -25,8 +25,8 @@ const AddNewCards = ({ setCardsList, activeSortType }: AddNewCardsPropType) => {
           key: Date.now(),
           createdAt: Date.now(),
           updatedAt: Date.now(),
-          fxRates: rates.fxRate,
-          inverseFxRates: 1 / rates.fxRate,
+          fxRate: rates.fxRate,
+          inverseFxRate: 1 / rates.fxRate,
         };
 
         return placeAtCorrectPosition(

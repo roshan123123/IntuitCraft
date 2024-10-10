@@ -23,8 +23,8 @@ type FxCardsPropType = {
   from: string;
   to: string;
   createdAt: number;
-  fxRates: number;
-  inverseFxRates: number;
+  fxRate: number;
+  inverseFxRate: number;
 };
 
 const FXCards = ({
@@ -34,11 +34,11 @@ const FXCards = ({
   from,
   to,
   createdAt,
-  fxRates,
-  inverseFxRates,
+  fxRate,
+  inverseFxRate,
 }: FxCardsPropType) => {
   const [fromInput, setFromInput] = useState(1);
-  const [toInput, setToInput] = useState(1 * fxRates);
+  const [toInput, setToInput] = useState(1 * fxRate);
   const [userTouched, setUserTouched] = useState(INPUT_CONSTANT.FROM);
   const [error, setError] = useState('');
   const [refreshLoading, setRefreshLoading] = useState(false);
@@ -52,7 +52,7 @@ const FXCards = ({
     setUserTouched(INPUT_CONSTANT.FROM);
     const val = e.target.value;
     setFromInput(val);
-    setToInput(val * fxRates);
+    setToInput(val * fxRate);
   };
 
   // //for making specific throttoling
@@ -63,15 +63,15 @@ const FXCards = ({
     setUserTouched(INPUT_CONSTANT.TO);
     const val = e.target.value;
     setToInput(val);
-    setFromInput(val * inverseFxRates);
+    setFromInput(val * inverseFxRate);
   };
   useEffect(() => {
     if (userTouched == INPUT_CONSTANT.FROM) {
-      setToInput(fromInput * fxRates);
+      setToInput(fromInput * fxRate);
     } else {
-      setFromInput(toInput * inverseFxRates);
+      setFromInput(toInput * inverseFxRate);
     }
-  }, [fxRates]);
+  }, [fxRate]);
 
   return (
     <div className="flex flex-col border-gray-300 border rounded-xl py-4  px-5 w-[340px]">
@@ -86,7 +86,7 @@ const FXCards = ({
             >
               <CgArrowsExchangeAltV />
             </button>
-            <span>{roundToDecimalPlace(fxRates, 5)}</span>
+            <span>{roundToDecimalPlace(fxRate, 5)}</span>
           </div>
           <span className=" text-green-700 font-bold">{to}</span>
         </div>
