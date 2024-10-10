@@ -58,8 +58,8 @@ describe('placeAtCorrectPosition function', () => {
       key: 1,
       createdAt: 1632990000,
       updatedAt: 1633080000,
-      fxRates: 1.2,
-      inverseFxRates: 0.83,
+      fxRate: 1.2,
+      inverseFxRate: 0.83,
     },
     {
       from: 'USD',
@@ -67,8 +67,8 @@ describe('placeAtCorrectPosition function', () => {
       key: 2,
       createdAt: 1633000000,
       updatedAt: 1633090000,
-      fxRates: 1.5,
-      inverseFxRates: 0.67,
+      fxRate: 1.5,
+      inverseFxRate: 0.67,
     },
     {
       from: 'USD',
@@ -76,8 +76,8 @@ describe('placeAtCorrectPosition function', () => {
       key: 3,
       createdAt: 1633010000,
       updatedAt: 1633100000,
-      fxRates: 74.5,
-      inverseFxRates: 0.013,
+      fxRate: 74.5,
+      inverseFxRate: 0.013,
     },
   ];
 
@@ -88,8 +88,8 @@ describe('placeAtCorrectPosition function', () => {
       key: 4,
       createdAt: 1632995000,
       updatedAt: 1633085000,
-      fxRates: 110,
-      inverseFxRates: 0.0091,
+      fxRate: 110,
+      inverseFxRate: 0.0091,
     };
     const updatedList = placeAtCorrectPosition(
       initialList,
@@ -108,8 +108,8 @@ describe('placeAtCorrectPosition function', () => {
       key: 4,
       createdAt: 1632995000,
       updatedAt: 1633085000,
-      fxRates: 110,
-      inverseFxRates: 0.0091,
+      fxRate: 110,
+      inverseFxRate: 0.0091,
     };
     const updatedList = placeAtCorrectPosition(
       initialList,

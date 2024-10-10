@@ -6,10 +6,7 @@ export const SORT_BUTTONS_CONFIGS = [
     title: 'SORT BY CREATED_AT',
     sortType: SORT_TYPE.createdAt,
   },
-  { key: SORT_TYPE.fxRates, 
-    title: 'SORT BY FX_RATE',
-    sortType: SORT_TYPE.fxRates 
-  },
+  { key: SORT_TYPE.fxRate, title: 'SORT BY FX_RATE', sortType: SORT_TYPE.fxRate },
   {
     key: SORT_TYPE.updatedAt,
     title: 'SORT BY UPDATED_AT',

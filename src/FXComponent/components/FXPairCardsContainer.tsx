@@ -30,8 +30,8 @@ const FXPairCardsContainer = ({
             from={cards.from}
             to={cards.to}
             createdAt={cards.createdAt}
-            fxRates={cards.fxRates}
-            inverseFxRates={cards.inverseFxRates}
+            fxRate={cards.fxRate}
+            inverseFxRate={cards.inverseFxRate}
           />
         );
       })}

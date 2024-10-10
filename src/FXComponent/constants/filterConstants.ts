@@ -2,7 +2,7 @@
 const SORT_TYPE = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  fxRates: 'fxRates',
+  fxRate: 'fxRate',
 } as const;
 
 const ORDER = {

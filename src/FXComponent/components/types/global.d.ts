@@ -7,8 +7,8 @@ declare global {
     key: number;
     createdAt: number;
     updatedAt: number;
-    fxRates: number;
-    inverseFxRates: number;
+    fxRate: number;
+    inverseFxRate: number;
   };
 
   export type ActiveSortType = {

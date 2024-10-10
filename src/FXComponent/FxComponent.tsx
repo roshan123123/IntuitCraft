@@ -38,8 +38,8 @@ function FxComponent() {
             updatedAt: Date.now(),
             from: modifiedElement.to,
             to: modifiedElement.from,
-            fxRates: modifiedElement.inverseFxRates,
-            inverseFxRates: modifiedElement.fxRates,
+            fxRate: modifiedElement.inverseFxRate,
+            inverseFxRate: modifiedElement.fxRate,
           },
         );
       });
@@ -104,8 +104,8 @@ function FxComponent() {
             const modifiedElement = {
               ...prevCardList.find((ele) => ele.key == key),
               updatedAt: Date.now(),
-              fxRates: rates.fxRate,
-              inverseFxRates: 1 / rates.fxRate,
+              fxRate: rates.fxRate,
+              inverseFxRate: 1 / rates.fxRate,
             };
 
             return placeAtCorrectPosition(

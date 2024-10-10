@@ -16,8 +16,8 @@ describe('FXCards Component', () => {
     from: 'USD',
     to: 'EUR',
     createdAt: 123456789,
-    fxRates: 2,
-    inverseFxRates: 0.5,
+    fxRate: 2,
+    inverseFxRate: 0.5,
   };
 
   it('renders without crashing', () => {
@@ -54,6 +54,7 @@ describe('FXCards Component', () => {
       mockProps.createdAt,
       mockProps.from,
       mockProps.to,
+      expect.any(Function),
       expect.any(Function),
     );
 
