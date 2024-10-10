@@ -7,6 +7,7 @@ import SortButton from './components/SortButton';
 import { ORDER, SORT_TYPE } from './constants/filterConstants';
 import { LocalstorageKey } from './constants/localStorage';
 import { placeAtCorrectPosition, sortAndReturnNewList } from './helper';
+import { SORT_BUTTONS_CONFIGS } from './constants/sortButtonsConfig';
 import './index.css';
 
 function FxComponent() {
@@ -141,29 +142,17 @@ function FxComponent() {
 
   return (
     <div className="min-h-screen bg-white">
-      <AddNewCards
-        setCardsList={setCardsList}
-        activeSortType={activeSortType}
-      />
+      <AddNewCards setCardsList={setCardsList} activeSortType={activeSortType} />
       <div className="p-4 flex gap-2 sticky top-[73px] bg-white border mb-5">
-        <SortButton
-          title={'SORT BY CREATED_AT'}
-          handleSort={handleSort}
-          activeSortType={activeSortType}
-          sortType={SORT_TYPE.createdAt}
-        />
-        <SortButton
-          title={'SORT BY FX_RATE'}
-          handleSort={handleSort}
-          activeSortType={activeSortType}
-          sortType={SORT_TYPE.fxRates}
-        />
-        <SortButton
-          title={'SORT BY UPDATED_AT'}
-          handleSort={handleSort}
-          activeSortType={activeSortType}
-          sortType={SORT_TYPE.updatedAt}
-        />
+        {SORT_BUTTONS_CONFIGS.map((sortConfig) => (
+          <SortButton
+            key={sortConfig.key}
+            title={sortConfig.title}
+            handleSort={handleSort}
+            activeSortType={activeSortType}
+            sortType={sortConfig.sortType}
+          />
+        ))}
       </div>
       <FXPairCardsContainer
         cardsList={cardsList}
@@ -176,11 +165,3 @@ function FxComponent() {
 }
 
 export default FxComponent;
-
-// const sortConfig=[
-//   title:"xl,fdg",
-//   comparator:()=>{
-
-//   }
-//   type:{}
-// ]
