@@ -1,1 +1,1 @@
-export { default } from './FxComponent';
+export { default } from './FxCardsDashBoard';
